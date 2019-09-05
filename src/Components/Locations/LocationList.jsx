@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
-// import Car from './Car.jsx'
+import { GoTrashcan, GoPencil, GoNote } from "react-icons/go";
+
 
 export default function LocationList() {
 
@@ -23,35 +24,35 @@ export default function LocationList() {
     })
   }, [isLoading])
 
+  const linkStyle = {color: 'white'}
+
   return (
 
-    <div>
-      <Button>
-        <Link to='/locations/new'>
-          Add Dealership
-        </Link>
-      </Button>
+    <div className="container">
+      <Link style={linkStyle} className="btn btn-primary float-right" to='/locations/new'>
+        Add Dealership
+      </Link>
 
-      <Table striped>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>View</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-          {dataFailed && <p>failed to load</p>}
-        <tbody>
-          {locationData.map( location => (
-            <>
-              <LocationRow loadingState={setIsLoading} location_id={location.id} name={location.name} />
-            </>
-          ))}
-        </tbody>
-      </Table>
-    </div>
-  )
+    <Table hover>
+      <thead>
+        <tr>
+          <th className="col-6">Name</th>
+          <th className="col-2 text-center">View</th>
+          <th className="col-2 text-center">Edit</th>
+          <th className="col-2 text-center">Delete</th>
+        </tr>
+      </thead>
+      {dataFailed && <p>failed to load</p>}
+      <tbody>
+        {locationData.map( location => (
+          <>
+          <LocationRow loadingState={setIsLoading} location_id={location.id} name={location.name} />
+        </>
+      ))}
+    </tbody>
+  </Table>
+</div>
+)
 }
 
 function LocationRow({ location_id, name, loadingState }){
@@ -65,30 +66,29 @@ function LocationRow({ location_id, name, loadingState }){
     .catch(error => console.error('Error:', error));
   }
 
+  const linkStyle = {color: 'white'}
+
   return (
     <>
     <tr>
-      <th scope="row">{name}</th>
-      <td>
-        <Button>
-          <Link to={`/locations/${location_id}`}>
-            View Full Details
-          </Link>
-        </Button>
-      </td>
-      <td>
-        <Button>
-          <Link to={`/locations/${location_id}/edit`}>
-            Edit Location
-          </Link>
-        </Button>
-      </td>
-      <td>
-        <Button onClick={() => handleDelete(location_id)}>
-          Remove Location
-        </Button>
-      </td>
-    </tr>
-    </>
-  )
+      <td scope="row">{name}</td>
+      <td className="text-center">
+        <Link style={linkStyle} className="btn btn-primary" to={`/locations/${location_id}`}>
+          <GoNote />
+      </Link>
+    </td>
+    <td className="text-center">
+      <Link style={linkStyle} className="btn btn-secondary" to={`/locations/${location_id}/edit`}>
+      <GoPencil />
+    </Link>
+
+  </td>
+  <td className="text-center">
+    <Button style={linkStyle} className="btn btn-danger" onClick={() => handleDelete(location_id)}>
+      <GoTrashcan />
+    </Button>
+  </td>
+</tr>
+</>
+)
 }

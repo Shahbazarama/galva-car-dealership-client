@@ -37,10 +37,21 @@ function App() {
 }
 
 function Home() {
-  return <h2>check out the cars or dealership locations</h2>;
+
+  return (
+    <div className="container">
+      <h2>check out the cars or dealership locations</h2>
+      <br></br>
+      <em>login</em><br></br>
+      <input type="text" placeholder="email"></input><br></br>
+      <input type="password" placeholder="password"></input><br></br>
+      <input type="submit"></input><br></br>
+    </div>
+  )
 }
 
 function Header() {
+  const linkStyle = {color: 'white'}
   return (
     <Navbar light expand="md">
       <NavbarBrand>
@@ -49,17 +60,17 @@ function Header() {
         <Nav className="ml-auto" navbar>
           <NavItem>
             <NavLink>
-              <Link to="/">Home</Link>
+              <Link to="/" style={linkStyle} className="btn-sm btn-dark">Home</Link>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink>
-                <Link to="/cars">Cars</Link>
+                <Link to="/cars" style={linkStyle} className="btn-sm btn-dark">Cars</Link>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink>
-              <Link to="/locations">Locations</Link>
+              <Link to="/locations" style={linkStyle} className="btn-sm btn-dark">Locations</Link>
             </NavLink>
           </NavItem>
         </Nav>

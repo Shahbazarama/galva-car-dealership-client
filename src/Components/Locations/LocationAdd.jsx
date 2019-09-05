@@ -18,7 +18,7 @@ export default function LocationAdd(){
   }
 
   return (
-    <>
+    <div className="container-fluid">
       add a new dealership location
     <hr></hr>
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -39,6 +39,6 @@ export default function LocationAdd(){
       <input className="form-control" type="submit"/>
     </Form>
       {submittedForm ? <Redirect to='/locations' /> : null}
-    </>
+    </div>
   )
 }

@@ -4,21 +4,34 @@ import {Row, Col} from 'reactstrap'
 export default function Car({ match }){
 
   const [carListData, setCarListData] = useState({});
+  const [locationData, setLocationData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`http://localhost:8080/cars/${match.params.car_id}`)
-      .then(res => res.json())
-      .then( response => {
-        setCarListData(response)
-        console.log( response )
-        })
-      .catch(error => {
-        console.log(error)
-      })
-    }, [match.params.car_id])
+    .then(res => res.json())
+    .then( response => {
+      setCarListData(response)
+      console.log( response )
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }, [match.params.car_id])
 
+  useEffect(() => {
+    fetch(`http://localhost:8080/locations/${carListData.locationId}`)
+    .then(res => res.json())
+    .then( response => {
+      setLocationData(response)
+      console.log( response )
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }, [carListData.locationId])
   return (
-    <div>
+    <div className="container">
       <Row>
         <Col md={4}>
           <img src={carListData.photo_url} width="100%"/>
@@ -49,7 +62,7 @@ export default function Car({ match }){
               <small className="text-muted"><i>VIN</i>:</small> <h3>{carListData.vin}</h3>
             </Col>
             <Col xs={4}>
-              <small className="text-muted"><i>Dealership Location ID</i>:</small> <h3>{carListData.location_id}</h3>
+              <small className="text-muted"><i>Dealership</i>:</small> <h3>{locationData.name}</h3>
             </Col>
           </Row>
         </Col>

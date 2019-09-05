@@ -31,7 +31,7 @@ export default function LocationEdit({ match }){
     }, [match.params.location_id])
 
   return (
-    <>
+    <div className="container-fluid">
       edit the selected dealership location
     <hr></hr>
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -53,6 +53,6 @@ export default function LocationEdit({ match }){
       <input className="form-control btn-dark" type="submit"/>
     </Form>
     {submittedForm ? <Redirect to='/locations' /> : null}
-    </>
+  </div>
   )
 }
