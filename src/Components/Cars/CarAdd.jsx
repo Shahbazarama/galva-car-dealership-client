@@ -1,61 +1,85 @@
-import React from 'react'
-
-import { Row, Col, Button, Form, FormGroup, Label, Input} from 'reactstrap';
+import React, { useState } from 'react'
+import useForm from 'react-hook-form'
+import { Redirect} from 'react-router-dom'
+import { Row, Col, Form, FormGroup, Label } from 'reactstrap';
 
 export default function CarAdd(){
+  const { register, handleSubmit } = useForm()
+  const [submittedForm, setSubmittedForm] = useState(false)
+  const onSubmit = data => {
+    fetch(`http://localhost:8080/cars`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(() => setSubmittedForm(true))
+
+  }
 
   return (
     <>
       add a new car
     <hr></hr>
-    <Form>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Row form>
           <Col md={4}>
             <FormGroup>
-              <Label for="carYear">Year</Label>
-              <Input type="number" name="carYear" id="carYear" placeholder="Enter the car's year"/>
+              <Label for="year">Year</Label>
+              <input className="form-control" type="number" name="year" id="year" placeholder="Enter the car's year" ref={register({ required: true })} autofocus />
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="carMake">Make</Label>
-              <Input type="text" name="carMake" id="carMake" placeholder="Enter the car's make"/>
+              <Label for="make">Make</Label>
+              <input className="form-control" type="text" name="make" id="make" placeholder="Enter the car's make" ref={register({ required: true })} />
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="carModel">Model</Label>
-              <Input type="text" name="carModel" id="carModel" placeholder="Enter the car's model"/>
+              <Label for="model">Model</Label>
+              <input className="form-control" type="text" name="model" id="model" placeholder="Enter the car's model" ref={register({ required: true })} />
             </FormGroup>
           </Col>
         </Row>
         <Row form>
             <Col md={4}>
               <FormGroup>
-                <Label for="carVin">VIN</Label>
-                <Input type="text" name="carVin" id="carVin" placeholder="Enter the car's VIN"/>
+                <Label for="vin">VIN</Label>
+                <input className="form-control" type="text" name="vin" id="vin" placeholder="Enter the car's VIN" ref={register({ required: true })} />
               </FormGroup>
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Label for="carMiles">Miles</Label>
-                <Input type="number" name="carMiles" id="carMiles" placeholder="Enter the car's miles"/>
+                <Label for="miles">Miles</Label>
+                <input className="form-control" type="number" name="miles" id="miles" placeholder="Enter the car's miles" ref={register({ required: true })} />
               </FormGroup>
             </Col>
             <Col md={4}>
               <FormGroup>
-                <Label for="carPrice">Price</Label>
-                <Input type="number" name="carPrice" id="carPrice" placeholder="Enter the car's price"/>
+                <Label for="price">Price</Label>
+                <input className="form-control" type="number" name="price" id="price" placeholder="Enter the car's price" ref={register({ required: true })} />
               </FormGroup>
             </Col>
           </Row>
-      <FormGroup>
-        <Label for="carPhotoURL">Photo URL</Label>
-        <Input type="text" name="carPhotoURL" id="carPhotoURL" placeholder="Enter the photo URL of the car" />
-      </FormGroup>
+          <Row form>
+            <Col md={8}>
+              <FormGroup>
+                <Label for="photo_url">Photo URL</Label>
+                <input className="form-control" type="text" name="photo_url" id="photo_url" placeholder="Enter the photo URL of the car" ref={register({ required: true })} />
+              </FormGroup>
+            </Col>
+            <Col md={4}>
+              <FormGroup>
+                <Label for="location_id">Dealership ID</Label>
+                <input className="form-control" type="text" name="location_id" id="location_id" placeholder="Enter the dealership location ID" ref={register({ required: true })} />
+              </FormGroup>
+            </Col>
+          </Row>
 
-      <Button>Submit</Button>
-    </Form>
+          <input className="form-control" type="submit"/>
+        </Form>
+        {submittedForm ? <Redirect to='/cars' /> : null}
     </>
   )
 }

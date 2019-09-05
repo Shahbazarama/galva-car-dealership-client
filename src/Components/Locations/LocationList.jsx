@@ -3,17 +3,17 @@ import { Table, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 // import Car from './Car.jsx'
 
-export default function CarList() {
+export default function LocationList() {
 
-  const [carListData, setCarListData] = useState([]);
+  const [locationData, setLocationData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dataFailed, setDataFailed] = useState(false);
   console.log(isLoading)
   useEffect(() => {
-    fetch(`http://localhost:8080/cars`)
+    fetch(`http://localhost:8080/locations`)
     .then(res => res.json())
     .then( response => {
-      setCarListData(response)
+      setLocationData(response)
       setIsLoading(false)
       console.log( response )
     })
@@ -21,24 +21,21 @@ export default function CarList() {
       setDataFailed(true)
       console.log(error)
     })
-  }, [isLoading]) // run when a car is deleted by setting isLoading
+  }, [isLoading])
 
   return (
 
     <div>
       <Button>
-        <Link to='/cars/new'>
-          Add Car
+        <Link to='/locations/new'>
+          Add Dealership
         </Link>
       </Button>
 
       <Table striped>
         <thead>
           <tr>
-            <th>Year</th>
-            <th>Make</th>
-            <th>Model</th>
-            <th>Dealership</th>
+            <th>Name</th>
             <th>View</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -46,9 +43,9 @@ export default function CarList() {
         </thead>
           {dataFailed && <p>failed to load</p>}
         <tbody>
-          {carListData.map( car => (
+          {locationData.map( location => (
             <>
-              <CarRow loadingState={setIsLoading} car_id={car.id} year={car.year} make={car.make} model={car.model} dealership={car.location_id} />
+              <LocationRow loadingState={setIsLoading} location_id={location.id} name={location.name} />
             </>
           ))}
         </tbody>
@@ -57,11 +54,11 @@ export default function CarList() {
   )
 }
 
-function CarRow({ car_id, year, make, model, dealership, loadingState }){
+function LocationRow({ location_id, name, loadingState }){
 
   const handleDelete = id => {
     console.log(id)
-    fetch(`http://localhost:8080/cars/${id}`, {
+    fetch(`http://localhost:8080/locations/${id}`, {
       method: 'DELETE'
     })
     .then(() => loadingState(true))
@@ -71,27 +68,24 @@ function CarRow({ car_id, year, make, model, dealership, loadingState }){
   return (
     <>
     <tr>
-      <th scope="row">{year}</th>
-      <td>{make}</td>
-      <td>{model}</td>
-      <td>{dealership}</td>
+      <th scope="row">{name}</th>
       <td>
         <Button>
-          <Link to={`/cars/${car_id}`}>
+          <Link to={`/locations/${location_id}`}>
             View Full Details
           </Link>
         </Button>
       </td>
       <td>
         <Button>
-          <Link to={`/cars/${car_id}/edit`}>
-            Edit Car
+          <Link to={`/locations/${location_id}/edit`}>
+            Edit Location
           </Link>
         </Button>
       </td>
       <td>
-        <Button onClick={() => handleDelete(car_id)}>
-          Remove Car
+        <Button onClick={() => handleDelete(location_id)}>
+          Remove Location
         </Button>
       </td>
     </tr>

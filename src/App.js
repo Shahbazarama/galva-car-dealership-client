@@ -5,7 +5,10 @@ import CarList from './Components/Cars/CarList.jsx'
 import Car from './Components/Cars/Car.jsx'
 import CarAdd from './Components/Cars/CarAdd.jsx'
 import CarEdit from './Components/Cars/CarEdit.jsx'
-import LocationsList from './Components/Locations/LocationsList.jsx'
+import LocationList from './Components/Locations/LocationList.jsx'
+import Location from './Components/Locations/Location.jsx'
+import LocationAdd from './Components/Locations/LocationAdd.jsx'
+import LocationEdit from './Components/Locations/LocationEdit.jsx'
 
 
 function App() {
@@ -17,15 +20,17 @@ function App() {
 
         <Switch>
           <Route exact path="/" component={Home} />
+
           <Route exact path="/cars" component={CarList} />
           <Route path="/cars/new" component={CarAdd} />
           <Route exact path="/cars/:car_id/edit" component={CarEdit} />
           <Route path="/cars/:car_id" component={Car} />
-          <Route exact path="/locations" component={LocationsList} />
+
+          <Route exact path="/locations" component={LocationList} />
+          <Route path="/locations/new" component={LocationAdd} />
+          <Route exact path="/locations/:location_id/edit" component={LocationEdit} />
+          <Route path="/locations/:location_id" component={Location} />
         </Switch>
-
-
-
       </div>
     </Router>
   );
@@ -34,33 +39,6 @@ function App() {
 function Home() {
   return <h2>check out the cars or dealership locations</h2>;
 }
-
-// function Topic({ match }) {
-//   return <h3>Requested Param: {match.params.id}</h3>;
-// }
-//
-// function Topics({ match }) {
-//   return (
-//     <div>
-//       <h2>Topics</h2>
-//       <ul>
-//         <li>
-//           <Link to={`${match.url}/components`}>Components</Link>
-//         </li>
-//         <li>
-//           <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-//         </li>
-//       </ul>
-//
-//       <Route path={`${match.path}/:id`} component={Topic} />
-//       <Route
-//         exact
-//         path={match.path}
-//         render={() => <h3>Please select a topic.</h3>}
-//       />
-//     </div>
-//   );
-// }
 
 function Header() {
   return (
